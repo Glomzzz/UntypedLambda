@@ -15,7 +15,9 @@ data Lambda
 lookupEnv (n : ns, v : vs) name = if n == name then v else lookupEnv (ns, vs) name
 lookupEnv ([], []) name = name
 
-rename (Lam name expr) (ns, vs) count = Lam namen (rename expr (name : ns, namen : vs) countn)
+-- α-convertion
+rename (Lam name expr) (ns, vs) count =
+  Lam namen (rename expr (name : ns, namen : vs) countn)
   where
     countn = count + 1
     namen = name ++ show countn
@@ -95,6 +97,10 @@ m =
         )
     )
 
-main = evalV expr
+mainN = evalN expr
+  where
+    expr = App (App yn m) (Con 30)
+
+mainV = evalV expr
   where
     expr = App (App yv m) (Con 30)
